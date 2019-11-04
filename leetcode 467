@@ -1,0 +1,46 @@
+--------------------attention---------------------------
+注意列表，i 的位置
+注意使用的是最后结尾的字母，即以某个字母结尾的可能性，而不是以某个字母开头，这是必须要注意的。
+因为这样做，可以有一个lenth的累加。
+如果你使用开头的话，那么每一个字母你都需要一遍遍地区遍历
+————————————————————————————————————————————————————————————————
+
+
+class Solution:
+     def findSubstringInWraproundString(self, case: str) -> int:
+        if len(case)==1:
+            return 1
+        index=[i for i in range(0,26)]
+        gap=[-25,1]
+        s="abcdefghijklmnopqrstuvwxyz"
+        dict_={s[i]:index[i] for i in range(len(index))}
+    #     dict_1={i:s[i] for i in range(len(index))}
+        gap=[1,-25]
+        case_=[dict_[i] for i in case]
+        result={i:0 for i in index}
+        len_=1
+        for i in range(len(case_)):
+            if i>0 and case_[i]-case_[i-1] in gap:
+                len_+=1
+            else:
+                len_=1
+            result[case_[i]]=max(len_,result[case_[i]])    
+        
+        return sum([result[i] for i in range(26)])
+
+#     def findSubstringInWraproundString(self, p):
+#         """
+#         :type p: str
+#         :rtype: int
+#         """
+#         count = collections.defaultdict(int)
+#         N = len(p)
+#         _len = 0
+#         for i in range(N):
+#             if i > 0 and (ord(p[i]) - ord(p[i - 1]) == 1 or (p[i] == 'a' and p[i - 1] == 'z')):
+#                 _len += 1
+#             else:
+#                 _len = 1
+#             count[p[i]] = max(count[p[i]], _len)
+#         return sum(count.values())
+
