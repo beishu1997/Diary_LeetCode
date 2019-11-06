@@ -1,0 +1,50 @@
+# class Solution:
+#     def uniqueLetterString(self, S: str) -> int:
+#         alpha="abcdefghijklmnopqrstuvwxyz".upper()
+#         dict_a={}
+#         store=[]
+#         for i in alpha:
+#             dict_a[i]=[0]
+#         for i in S:
+#             for j in dict_a:
+#                 dict_a[j].append(dict_a[j][-1])
+#             dict_a[i][-1]=dict_a[i][-1]+1
+#         for i in range(len(S)+1):
+#             for j in range(0,i):
+#                 temp_list=[dict_a[k][i]-dict_a[k][j] for k in dict_a]
+#                 temp_list=[i for i in temp_list if i==1]
+#                 store.append(len(temp_list))
+#         return sum(store)
+#                 n**2
+
+#============================Here you still use the simple way as slicing windows. 
+#============================但是值得注意的是，你使用的东西还是一样的，就是要研究其中每个字母的含义，用一个字典store住每个字母的位置；
+#然后对其前后做处理，没什么大不了的
+class Solution:
+    def uniqueLetterString(self, S: str) -> int:
+        alpha="abcdefghijklmnopqrstuvwxyz".upper()
+        dict_a={}
+        store=[]
+        for i in alpha:
+            dict_a[i]=[0]
+        for i in range(len(S)):
+            dict_a[S[i]].append(i+1)
+        
+        col=0
+        for i in dict_a:
+            
+            if len(dict_a[i])==1:
+                continue
+            dict_a[i].append(len(S)+1)
+            temp=0
+            for j in range(1,len(dict_a[i])-1):
+                temp+=(dict_a[i][j]-dict_a[i][j-1])*(dict_a[i][j+1]-dict_a[i][j])
+            col+=temp
+        return col
+        
+        
+        
+        
+        
+        
+            
