@@ -1,0 +1,27 @@
+#----------------instruction----------------------
+        #1. 先按照细胞机移动，写出一个计算式子
+        #2. 因为prison是有限的，所以说必定有循环。那么可以记录一个循环下来，然后对于巨大的N，可以作除号处理就可以了
+        #-----------------------------------------------------------------------------
+
+class Solution:
+    def prisonAfterNDays(self, cells: List[int], N: int) -> List[int]:
+        new_cell=[i for i in cells]
+        store=[]
+        detect=lambda x: 1 if x[0]==x[2] else 0 
+        if N==0:
+            return cells
+        position=-1
+        for i in range(N):
+            cells=[0,]+[detect(cells[i-1:i+2]) for i in range(1,len(cells)-1)]+[0,]     
+            temp=[i_ for i_ in cells]
+            if temp in store:
+                position = store.index(temp)
+                route=i-position
+                break
+            store.append(temp)
+        if position>=0:
+            count=(N-position)%route
+            return store[position+count-1]    
+        return cells
+        
+        
